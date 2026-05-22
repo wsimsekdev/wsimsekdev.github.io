@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wsimsek - Resmi Site</title>
+    <style>
+        /* Genel sayfa ayarları ve siyah arkaplan */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* İçeriği tam ortaya hizalamak için Flexbox kullanıyoruz */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* Geliştirici Adı (Dev puntolarla) */
+        h1 {
+            font-size: 6vw; /* Ekran boyutuna göre küçülüp büyüyecek */
+            margin: 0;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Ufak bir alt başlık (İsteğe bağlı) */
+        p.subtitle {
+            color: #888888;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            margin-bottom: 50px;
+        }
+
+        /* Sinyal Kaybı Butonu */
+        .game-button {
+            background-color: #2AAD2E; /* Dikkat çekici bir kırmızı/turuncu */
+            color: #ffffff;
+            text-decoration: none;
+            padding: 20px 60px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(232, 65, 24, 0.3);
+        }
+
+        /* Butonun üzerine fare ile gelince olacak efektler */
+        .game-button:hover {
+            background-color: #435E2C;
+            transform: translateY(-5px); /* Hafifçe yukarı kalkar */
+            box-shadow: 0 8px 25px rgba(232, 65, 24, 0.6); /* Parlama artar */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Geliştirici Adın -->
+    <h1>Wsimsek</h1>
+    
+    <!-- Alt Başlık -->
+    <p class="subtitle">Daha Sonra Güncellenecek</p>
+
+    <!-- Oyunun Linki -->
+    <a href="https://wsimsekdev.github.io/Sinyal-Kaybi/" class="game-button" target="_blank">Sinyal Kaybı'nı İncele</a>
+
+</body>
+</html>
