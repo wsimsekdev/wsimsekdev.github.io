@@ -3,71 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wsimsek - Resmi Site</title>
+    <title>Wsimsek | Indie Developer</title>
+    <!--yüklediğim favicon dosyası -->
+    <link rel="icon" type="image/png" href="DeveloperSite_icon.png">
     <style>
-        /* Genel sayfa ayarları ve siyah arkaplan */
+        /* Modern CSS Reset ve Temel Ayarlar */
+        :root {
+            --bg-color: #09090b;
+            --text-main: #fafafa;
+            --text-muted: #a1a1aa;
+            --accent-green: #2AAD2E;
+            --accent-glow: rgba(42, 173, 46, 0.2);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
         body {
             margin: 0;
             padding: 0;
-            background-color: #0a0a0a;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* İçeriği tam ortaya hizalamak için Flexbox kullanıyoruz */
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Geliştirici Adı (Dev puntolarla) */
-        h1 {
-            font-size: 6vw; /* Ekran boyutuna göre küçülüp büyüyecek */
-            margin: 0;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
-
-        /* Ufak bir alt başlık (İsteğe bağlı) */
-        p.subtitle {
-            color: #888888;
-            font-size: 1.2rem;
-            margin-top: 10px;
-            margin-bottom: 50px;
-        }
-
-        /* Sinyal Kaybı Butonu */
-        .game-button {
-            background-color: #2AAD2E; /* Dikkat çekici bir kırmızı/turuncu */
-            color: #ffffff;
-            text-decoration: none;
-            padding: 20px 60px;
-            font-size: 1.5rem;
+        /* Dil Seçici (Sağ Üst) */
+        .lang-switch {
+            position: absolute;
+            top: 30px;
+            right: 5vw;
+            display: flex;
+            gap: 15px;
             font-weight: bold;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .lang-btn:hover { color: var(--text-main); }
+        .lang-btn.active {
+            color: var(--accent-green);
+            border-bottom: 2px solid var(--accent-green);
+        }
+
+        /* Arka Plan Efekti */
+        .background-glow {
+            position: fixed;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            z-index: -1;
+            filter: blur(60px);
+            opacity: 0.5;
+        }
+
+        /* Ana Konteyner */
+        .container {
+            max-width: 900px;
+            width: 90%;
+            padding: 80px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        /* Header */
+        header {
+            text-align: left;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #fff 0%, #71717a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .bio {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin-top: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Projeler Bölümü */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: var(--accent-green);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(42, 173, 46, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+        }
+
+        .game-card:hover::before { transform: scaleX(1); }
+
+        .game-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: var(--text-main);
+        }
+
+        .game-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .modern-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            color: var(--text-main);
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 1px solid var(--card-border);
             border-radius: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(232, 65, 24, 0.3);
+            width: fit-content;
         }
 
-        /* Butonun üzerine fare ile gelince olacak efektler */
-        .game-button:hover {
-            background-color: #435E2C;
-            transform: translateY(-5px); /* Hafifçe yukarı kalkar */
-            box-shadow: 0 8px 25px rgba(232, 65, 24, 0.6); /* Parlama artar */
+        .game-card:hover .modern-button {
+            background-color: var(--accent-green);
+            border-color: var(--accent-green);
+            color: var(--bg-color);
+        }
+
+        footer {
+            margin-top: auto;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            text-align: left;
+        }
+
+        .social-links { display: flex; gap: 20px; }
+        .social-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-weight: 500;
+        }
+        .social-links a:hover { color: var(--text-main); }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Geliştirici Adın -->
-    <h1>Wsimsek</h1>
-    
-    <!-- Alt Başlık -->
-    <p class="subtitle">Daha Sonra Güncellenecek</p>
+    <div class="background-glow"></div>
 
-    <!-- Oyunun Linki -->
-    <a href="https://wsimsekdev.github.io/Sinyal-Kaybi/" class="game-button" target="_blank">Sinyal Kaybı'nı İncele</a>
+    <!-- Dil Seçici -->
+    <div class="lang-switch">
+        <span class="lang-btn active" onclick="setLanguage('tr')" id="btn-tr">TR</span>
+        <span class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</span>
+    </div>
 
+    <div class="container">
+        <!-- Başlık Bölümü -->
+        <header>
+            <h1>WSimsek</h1>
+            <span class="subtitle" data-tr="Indıe Geliştirici" data-en="Indıe Developer">Indıe Geliştirici</span>
+            <p class="bio" data-tr="Minimalist mobil deneyimler tasarlar. Klasik mekaniklere ufak eklemeler yapıp kullanıcıları yeni sınırlarla tanıştırmayı sever. İddiasız ve büyük oranda hobi olarak uygulama üreten bir geliştiricidir." data-en="Designs minimalist mobile experiences. Enjoys adding minor twists to classic mechanics to introduce users to new boundaries. An unpretentious developer who creates apps largely as a hobby.">Minimalist mobil deneyimler tasarlar. Klasik mekaniklere ufak eklemeler yapıp kullanıcıları yeni sınırlarla tanıştırmayı sever. İddiasız ve büyük oranda hobi olarak uygulama üreten bir geliştiricidir.</p>
+        </header>
+
+        <!-- Projeler Bölümü -->
+        <main>
+            <h2 class="section-title" data-tr="Geliştirilen Projeler" data-en="Developed Projects">Geliştirilen Projeler</h2>
+            
+            <div class="projects-grid">
+                <!-- Sinyal Kaybı Kartı -->
+                <a href="https://wsimsekdev.github.io/Sinyal-Kaybi/" class="game-card" target="_blank">
+                    <h3 class="game-title" data-tr="Sinyal Kaybı" data-en="Signal Loss">Sinyal Kaybı</h3>
+                    <p class="game-desc" data-tr="Görüş yok. Işık yok. Zifiri karanlıkta hayatta kalmak için sadece kendi attığın ses yankılarına güvenmek zorundasın. Atmosferik bir hayatta kalma deneyimi. Dikkat dağıtıcı grafiklerin olmadığı bir arcade-aksiyon oyunu." data-en="No vision. No light. You must rely solely on your own sound echoes to survive in the pitch dark. An atmospheric survival experience. An arcade-action game free from distracting graphics.">Görüş yok. Işık yok. Zifiri karanlıkta hayatta kalmak için sadece kendi attığın ses yankılarına güvenmek zorundasın. Atmosferik bir hayatta kalma deneyimi. Dikkat dağıtıcı grafiklerin olmadığı bir arcade-aksiyon oyunu.</p>
+                    <div class="modern-button" data-tr="Sinyal Kaybı Web Sitesi ➔" data-en="Signal Loss Website ➔">Sinyal Kaybı Web Sitesi ➔</div>
+                </a>
+
+                <!-- Gelecek Proje -->
+                <div class="game-card" style="opacity: 0.6; pointer-events: none;">
+                    <h3 class="game-title">Project: NULL</h3>
+                    <p class="game-desc" data-tr="Yeni bir proje üzerinde çalışılıyor. Detaylar duyurulacak..." data-en="Working on a new project. Details will be announced soon...">Yeni bir proje üzerinde çalışılıyor. Detaylar duyurulacak...</p>
+                    <div class="modern-button" style="border-style: dashed;" data-tr="Geliştirme Aşamasında" data-en="In Development">Geliştirme Aşamasında</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="social-links">
+                <a href="mailto:wsimsek.dev@gmail.com" data-tr="Email ile Ulaş" data-en="Contact via Email">Email ile Ulaş</a>
+                <a href="https://play.google.com/store/apps/developer?id=Wsimsek" target="_blank" data-tr="Google Play Geliştirici Sayfası" data-en="Google Play Developer Page">Google Play Geliştirici Sayfası</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function setLanguage(lang) {
+            // Buton aktifliğini değiştir
+            document.getElementById('btn-tr').classList.remove('active');
+            document.getElementById('btn-en').classList.remove('active');
+            document.getElementById('btn-' + lang).classList.add('active');
+
+            // Tüm çevrilecek elemanları bul
+            const elements = document.querySelectorAll('[data-tr]');
+            
+            elements.forEach(el => {
+                // Hafif fade efekti için
+                el.style.opacity = 0;
+                setTimeout(() => {
+                    el.innerText = el.getAttribute('data-' + lang);
+                    el.style.opacity = 1;
+                }, 150);
+            });
+        }
+    </script>
 </body>
 </html>
